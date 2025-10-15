@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { getAllProducts, addProduct } from "../controllers/productController.js";
+import { getAllProducts, getProductById, addProduct, updateProduct, deleteProduct } from "../controllers/productController.js";
 import verifyToken from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -27,7 +27,16 @@ const requireAdmin = (req, res, next) => {
 // ambil semua produk
 router.get("/", getAllProducts);
 
+// ambil produk by ID
+router.get("/:id", getProductById);
+
 // tambah produk (butuh token login dan role admin)
 router.post("/", verifyToken, requireAdmin, upload.single("image"), addProduct);
+
+// update produk (butuh token login dan role admin)
+router.put("/:id", verifyToken, requireAdmin, upload.single("image"), updateProduct);
+
+// hapus produk (butuh token login dan role admin)
+router.delete("/:id", verifyToken, requireAdmin, deleteProduct);
 
 export default router;

@@ -30,6 +30,23 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
+  const handleDelete = async (id) => {
+    if (!confirm("Yakin ingin menghapus produk ini?")) return;
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`http://localhost:5050/api/products/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Gagal menghapus produk");
+      alert("Produk berhasil dihapus");
+      // Refresh data setelah delete
+      setProducts(products.filter(p => p.id !== id));
+    } catch (err) {
+      alert("Gagal menghapus produk");
+    }
+  };
+
   if (loading) return <p className="text-center py-10">Memuat data produk...</p>;
 
   return (
@@ -58,10 +75,10 @@ export default function ProductsPage() {
           <tbody>
             {products.length > 0 ? (
               products.map((p) => (
-                <tr key={p._id} className="border-b hover:bg-gray-50">
+                <tr key={p.id} className="border-b hover:bg-gray-50">
                   <td className="p-3">
                     <img
-                      src={p.image || "/no-image.png"}
+                      src={p.image ? `http://localhost:5050/uploads/${encodeURIComponent(p.image)}` : "/no-image.png"}
                       alt={p.name}
                       className="w-14 h-14 object-cover rounded"
                     />
@@ -71,14 +88,14 @@ export default function ProductsPage() {
                   <td className="p-3">{p.stock}</td>
                   <td className="p-3 text-right space-x-2">
                     <Link
-                      href={`/admin/products/${p._id}`}
+                      href={`/admin/products/${p.id}`}
                       className="px-3 py-1 bg-yellow-400 rounded text-white hover:bg-yellow-500"
                     >
                       Edit
                     </Link>
                     <button
                       className="px-3 py-1 bg-red-500 rounded text-white hover:bg-red-600"
-                      onClick={() => handleDelete(p._id)}
+                      onClick={() => handleDelete(p.id)}
                     >
                       Hapus
                     </button>
@@ -97,20 +114,4 @@ export default function ProductsPage() {
       </div>
     </div>
   );
-}
-
-async function handleDelete(id) {
-  if (!confirm("Yakin ingin menghapus produk ini?")) return;
-  try {
-    const token = localStorage.getItem("token");
-    const res = await fetch(`http://localhost:5050/api/products/${id}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!res.ok) throw new Error("Gagal menghapus produk");
-    alert("Produk berhasil dihapus");
-    window.location.reload();
-  } catch (err) {
-    alert("Gagal menghapus produk");
-  }
 }
