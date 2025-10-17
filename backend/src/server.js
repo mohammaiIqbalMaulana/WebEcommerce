@@ -11,7 +11,12 @@ import helmet from "helmet";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import customerRoutes from "./routes/customerRoutes.js";
+import analyticsRoutes from "./routes/analyticsRoutes.js";
+import settingsRoutes from "./routes/settingsRoutes.js";
 import db from "./config/db.js"; // koneksi database
 
 // =============================
@@ -52,7 +57,14 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
 app.use("/api/transactions", transactionRoutes);
+
+// Admin panel routes
+app.use("/api/orders", orderRoutes);
+app.use("/api/customers", customerRoutes);
+app.use("/api/analytics", analyticsRoutes);
+app.use("/api/settings", settingsRoutes);
 
 // =============================
 // 🔹 Jalankan server

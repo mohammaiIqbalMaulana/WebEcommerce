@@ -28,4 +28,26 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
+// Middleware untuk autentikasi (alias untuk verifyToken)
+export const authenticateToken = verifyToken;
+
+// Middleware untuk cek role
+export const requireRole = (allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ message: "Authentication required" });
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({
+        message: "Akses ditolak! Anda tidak memiliki permission yang cukup.",
+        required_roles: allowedRoles,
+        user_role: req.user.role
+      });
+    }
+
+    next();
+  };
+};
+
 export default verifyToken;

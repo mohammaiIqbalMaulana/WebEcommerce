@@ -7,16 +7,22 @@ export default function Sidebar() {
       <h2 className="text-xl font-semibold mb-6">Admin Panel</h2>
       <nav className="flex flex-col space-y-3">
         <Link href="/admin" className="hover:bg-gray-700 p-2 rounded">
-          Dashboard
+          📊 Dashboard
         </Link>
         <Link href="/admin/products" className="hover:bg-gray-700 p-2 rounded">
-          Produk
+          📦 Produk
         </Link>
         <Link href="/admin/orders" className="hover:bg-gray-700 p-2 rounded">
-          Pesanan
+          📋 Pesanan
         </Link>
-        <Link href="/admin/users" className="hover:bg-gray-700 p-2 rounded">
-          Pengguna
+        <Link href="/admin/customers" className="hover:bg-gray-700 p-2 rounded">
+          👥 Pelanggan
+        </Link>
+        <Link href="/admin/analytics" className="hover:bg-gray-700 p-2 rounded">
+          📈 Analytics
+        </Link>
+        <Link href="/admin/settings" className="hover:bg-gray-700 p-2 rounded">
+          ⚙️ Pengaturan
         </Link>
       </nav>
     </aside>
